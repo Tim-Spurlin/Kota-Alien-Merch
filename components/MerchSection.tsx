@@ -55,7 +55,7 @@ const startCheckout = async (priceId: string) => {
         // 1. Get the current GA4 client_id
         const clientId = await new Promise<string>((resolve) => {
             if (typeof window.gtag === 'function') {
-                window.gtag('get', 'G-YP9833Z09D', 'client_id', (id: string) => {
+                window.gtag('get', import.meta.env.VITE_GA4_MEASUREMENT_ID, 'client_id', (id: string) => {
                     resolve(id);
                 });
             } else {
