@@ -125,7 +125,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
 });
 
 // Handle React routing, return all requests to React app
-app.get('/:pathMatch(.*)', staticFileLimiter, (req, res) => {
+app.get('*', staticFileLimiter, (req, res) => {
     res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
 });
 
