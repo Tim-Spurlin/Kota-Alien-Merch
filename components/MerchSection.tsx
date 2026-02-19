@@ -27,7 +27,7 @@ const products: Product[] = [
         title: '¡Chinga Tu Hielo! — Camiseta Unisex / Unisex T-Shirt',
         price: '$45.00',
         description: 'The strength of this shirt lies in its absurd and provocative playfulness. At the center, the white stick figure leans against a stack of bright, translucent ice cubes, full of cracks and droplets that reflect cold light. Everything is surrounded by a living desert frame: green nopales, spiky agaves, and pink flowers that contrast against the deep black of the fabric. At first glance it is light, bold humor — cold against heat, ice against attitude. But underneath it whispers resilience. 🧊🌵',
-        stripePriceId: 'price_1T1jFJJE7UXIJ9CHbT4gLh8K', // USER MUST REPLACE THIS
+        stripePriceId: 'price_1T1jFJJE7UXIJ9CHIzFlEbBh',
         images: {
             front: 'https://res.cloudinary.com/dw3lf8roj/image/upload/v1771326523/ChatGPT_Image_Feb_15_2026_01_28_46_AM_f3gim4.png',
             back: 'https://res.cloudinary.com/dw3lf8roj/image/upload/v1771326523/ChatGPT_Image_Feb_15_2026_01_16_14_AM_jzmcbb.png'
@@ -40,7 +40,7 @@ const products: Product[] = [
         title: '¡Chinga Tu Hielo! - Unisex Hoodie - Sudadera Unisex',
         price: '$65.00',
         description: 'This black hoodie blends bold humor with sharp minimalist style. On the front chest sits a compact graphic of the iconic stick figure leaning against a stack of glowing ice cubes, framed by desert botanicals — nopales, agave, and subtle pink blossoms. The contrast of cold crystal ice against deep black fabric creates a striking visual that feels both playful and confident.🧊🌵',
-        stripePriceId: 'price_1T1jFQJE7UXIJ9CHtUs80LM1', // USER MUST REPLACE THIS
+        stripePriceId: 'price_1T1jFQJE7UXIJ9CHtUs80LM1',
         images: {
             front: 'https://res.cloudinary.com/dw3lf8roj/image/upload/v1771326521/ChatGPT_Image_Feb_16_2026_12_20_26_AM_xa5iha.png',
             back: 'https://res.cloudinary.com/dw3lf8roj/image/upload/v1771326523/ChatGPT_Image_Feb_16_2026_12_19_17_AM_tp3oap.png'
