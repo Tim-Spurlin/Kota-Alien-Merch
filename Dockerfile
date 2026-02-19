@@ -6,6 +6,7 @@ COPY package*.json ./
 RUN node -v
 RUN npm install
 COPY . .
+ENV VITE_GA4_MEASUREMENT_ID=G-YP9833Z09D
 RUN npm run build
 
 # Stage 2: Serve the application with Node.js
