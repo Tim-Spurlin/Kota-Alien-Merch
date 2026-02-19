@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
+import rateLimit from 'express-rate-limit';
 
 dotenv.config();
 
@@ -12,6 +13,11 @@ const __dirname = path.dirname(__filename);
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const app = express();
+
+const staticFileLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs for catch-all route
+});
 
 // Use JSON parser for all non-webhook routes
 app.use((req, res, next) => {
@@ -119,7 +125,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
 });
 
 // Handle React routing, return all requests to React app
-app.get('*', (req, res) => {
+app.get('*', staticFileLimiter, (req, res) => {
     res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
 });
 
