@@ -1,0 +1,71 @@
+# Advanced + secure Dependabot config (2026 best practices)
+# • Daily version checks for fast security response
+# • Groups to reduce PR spam (stable minor/patch together, majors separate)
+# • Cooldown on new releases (prevents updating bleeding-edge packages)
+# • GitHub Actions always included (critical for workflow security)
+# • Assumes Node.js/npm (common for merch sites). Change "npm" if needed (see docs)
+# Full options: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # === GitHub Actions (always enable for security) ===
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "05:00"
+      timezone: "UTC"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    labels:
+      - "dependabot"
+      - "github-actions"
+      - "security"
+
+  # === Your main dependencies (npm / yarn / pnpm) ===
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "04:00"
+      timezone: "America/Chicago"   # ← change to your timezone
+    open-pull-requests-limit: 10
+    versioning-strategy: "increase-if-necessary"   # safe for production apps
+    rebase-strategy: "auto"
+    # Wait 3 days before creating PRs for brand-new releases (extra stability)
+    cooldown:
+      default-days: 3
+    groups:
+      # Group stable production updates (low risk)
+      production-stable:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
+      # Group dev dependencies
+      development-stable:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+      # Major updates get their own PRs (review carefully)
+      major-updates:
+        update-types:
+          - "major"
+    labels:
+      - "dependabot"
+      - "dependencies"
+      - "security"
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+
+# Optional: add more ecosystems here if needed (docker, pip, composer, etc.)
+# Example for Docker:
+#  - package-ecosystem: "docker"
+#    directory: "/"
+#    schedule:
+#      interval: "daily"
