@@ -5,6 +5,7 @@ import path from 'path';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 import rateLimit from 'express-rate-limit';
+import crypto from 'crypto';
 
 dotenv.config();
 
@@ -105,6 +106,69 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
 
         const measurementId = process.env.GA4_MEASUREMENT_ID;
         const apiSecret = process.env.GA4_API_SECRET;
+
+        // --- META CONVERSIONS API ---
+        const metaAccessToken = process.env.META_ACCESS_TOKEN;
+        const metaPixelId = process.env.META_PIXEL_ID;
+
+        if (metaAccessToken && metaPixelId) {
+            try {
+                const userData = {};
+
+                // Helper to hash PII
+                const hashValue = (val) => {
+                    if (!val) return undefined;
+                    return crypto.createHash('sha256').update(val.trim().toLowerCase()).digest('hex');
+                };
+
+                const customerEmail = session.customer_details?.email || session.customer_email;
+                if (customerEmail) userData.em = [hashValue(customerEmail)];
+
+                const customerPhone = session.customer_details?.phone;
+                if (customerPhone) userData.ph = [hashValue(customerPhone.replace(/[^\d+]/g, ''))];
+
+                const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+                if (clientIp) {
+                    userData.client_ip_address = clientIp.split(',')[0].trim();
+                }
+
+                const userAgent = req.headers['user-agent'];
+                if (userAgent) {
+                    userData.client_user_agent = userAgent;
+                }
+
+                // Optional: Extract fbc/fbp if passed in metadata
+                if (session.metadata?.fbc) userData.fbc = session.metadata.fbc;
+                if (session.metadata?.fbp) userData.fbp = session.metadata.fbp;
+
+                const capiPayload = {
+                    data: [
+                        {
+                            event_name: 'Purchase',
+                            event_time: Math.floor(Date.now() / 1000),
+                            action_source: 'website',
+                            event_source_url: 'https://aliens-music-video-merch-219296874904.us-west1.run.app/',
+                            user_data: userData,
+                            custom_data: {
+                                currency: session.currency.toUpperCase(),
+                                value: session.amount_total / 100,
+                            },
+                        }
+                    ]
+                };
+
+                await fetch(`https://graph.facebook.com/v19.0/${metaPixelId}/events?access_token=${metaAccessToken}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(capiPayload)
+                });
+                console.log(`✅ Meta CAPI purchase sent for session ${session.id}`);
+            } catch (error) {
+                console.error('Error sending to Meta CAPI:', error);
+            }
+        } else {
+            console.warn('Missing Meta credentials, skipping CAPI call.');
+        }
 
         if (measurementId && apiSecret) {
             try {
