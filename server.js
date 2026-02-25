@@ -12,8 +12,15 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const app = express();
+app.set('trust proxy', 1);
+
+let stripe = null;
+if (process.env.STRIPE_SECRET_KEY) {
+    stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+} else {
+    console.warn("⚠️ STRIPE_SECRET_KEY is missing. Stripe checkout will not work.");
+}
 
 const staticFileLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -36,6 +43,9 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // === CREATE CHECKOUT SESSION ===
 app.post('/create-checkout-session', async (req, res) => {
+    if (!stripe) {
+        return res.status(500).json({ error: 'Stripe is not configured on the server. Please add STRIPE_SECRET_KEY to environment variables.' });
+    }
     const { client_id, priceId } = req.body;
 
     try {
@@ -63,6 +73,9 @@ app.post('/create-checkout-session', async (req, res) => {
 
 // === STRIPE WEBHOOK ===
 app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+    if (!stripe) {
+        return res.status(500).json({ error: 'Stripe is not configured' });
+    }
     const sig = req.headers['stripe-signature'];
     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
