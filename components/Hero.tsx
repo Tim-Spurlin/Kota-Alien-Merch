@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Play, X } from 'lucide-react';
+import { ExternalLink, Play, Sparkles, X } from 'lucide-react';
 
 const Hero: React.FC = () => {
   const [loaded, setLoaded] = useState(false);
@@ -67,6 +67,34 @@ const Hero: React.FC = () => {
           >
             Get the Gear
           </a>
+        </div>
+
+        <div className="mt-10 w-full max-w-3xl group">
+          <div className="relative overflow-hidden rounded-2xl border border-green-900/40 bg-white/5 backdrop-blur shadow-[0_0_35px_rgba(34,197,94,0.12)]">
+            <div className="absolute inset-0 bg-gradient-to-r from-green-500/15 via-blue-500/10 to-purple-500/15 blur-3xl opacity-80 group-hover:blur-2xl group-hover:opacity-100 transition-all duration-500"></div>
+            <div className="relative px-6 py-5 sm:px-8 sm:py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-full bg-gradient-to-br from-green-400 via-blue-400 to-emerald-500 text-black shadow-lg shadow-green-500/30 animate-pulse">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-xs font-mono uppercase tracking-[0.3em] text-green-300 mb-1">Everything in one signal</p>
+                  <p className="text-sm md:text-base text-gray-200 leading-relaxed">
+                    Jump into the official hub to buy the merch, stream &ldquo;Aliens&rdquo;, and watch the music video together.
+                  </p>
+                </div>
+              </div>
+              <a
+                href="https://aliens-music-video-merch-219296874904.us-west1.run.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-green-400 via-emerald-400 to-cyan-300 text-black font-extrabold tracking-tight shadow-[0_0_30px_rgba(34,197,94,0.35)] hover:shadow-[0_0_45px_rgba(34,197,94,0.45)] hover:scale-105 active:scale-100 transition-all duration-200"
+              >
+                Enter the Alien Hub
+                <ExternalLink className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 
