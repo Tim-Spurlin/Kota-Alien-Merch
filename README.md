@@ -12,14 +12,15 @@
 
 **_"Separated by borders. Never forgotten."_**
 
-[🎬 Watch Now](#video) • [🛍️ Shop Merch](#merchandise) • [🎵 Stream](#music) • [📖 The Story](#storyline) • [❤️ The Cause](#social-impact)
-test
+[🚀 Live Site](https://aliens-music-video-merch-219296874904.us-west1.run.app/) • [🎬 Watch Now](#video) • [🛍️ Shop Merch](#merchandise) • [🎵 Stream](#music) • [📖 The Story](#storyline) • [❤️ The Cause](#social-impact)
+
 ---
 
 </div>
 
 ## 📑 Table of Contents
 
+- [🚀 Live Site](#-live-site)
 - [🌟 Project Overview](#-project-overview)
 - [🎯 Vision & Purpose](#-vision--purpose)
 - [📖 The Complete Storyline](#-the-complete-storyline)
@@ -45,6 +46,14 @@ test
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
 - [🙏 Acknowledgments](#-acknowledgments)
+
+---
+
+## 🚀 Live Site
+
+The application is deployed and accessible at:
+
+**➡️ [https://aliens-music-video-merch-219296874904.us-west1.run.app/](https://aliens-music-video-merch-219296874904.us-west1.run.app/)**
 
 ---
 
