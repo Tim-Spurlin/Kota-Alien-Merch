@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ShoppingBag } from 'lucide-react';
+import { sendMetaEvent } from '../metaApi';
 
 declare global {
     interface Window {
@@ -81,6 +82,16 @@ const startCheckout = async (priceId: string) => {
         }
 
         const { url } = await response.json();
+
+        // Track Events before redirect
+        const eventData = { currency: 'USD', value: parseFloat(priceId === 'price_1T1jFJJE7UXIJ9CHIzFlEbBh' ? '45.00' : '65.00') };
+
+        await Promise.all([
+            sendMetaEvent('AddToCart', eventData),
+            sendMetaEvent('InitiateCheckout', eventData),
+            sendMetaEvent('AddPaymentInfo', eventData) // Tracking upfront since Stripe Hosted checkout hides it
+        ]);
+
         window.location.href = url;
     } catch (error) {
         console.error('Error starting checkout:', error);

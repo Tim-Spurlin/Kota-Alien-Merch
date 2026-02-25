@@ -7,8 +7,12 @@ import StorySection from './components/StorySection';
 import MerchSection from './components/MerchSection';
 import SupportSection from './components/SupportSection';
 import Footer from './components/Footer';
+import { sendMetaEvent } from './metaApi';
 
 const App: React.FC = () => {
+  React.useEffect(() => {
+    sendMetaEvent('ViewContent');
+  }, []);
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-green-500 selection:text-black">
       <Navbar />
